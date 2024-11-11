@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../utils/session_manager.dart';
 import 'login_screen.dart';
+import 'perfil.dart';
+import 'agregar_cita.dart';
 
 class PaginaInicio extends StatelessWidget {
   const PaginaInicio({super.key});
@@ -15,7 +17,7 @@ class PaginaInicio extends StatelessWidget {
     );
 }
 
-   @override
+@override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -27,8 +29,33 @@ class PaginaInicio extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(
-        child: Text('¡Bienvenido a la aplicación!'),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text('¡Bienvenido a la aplicación!'),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PerfilUsuarioScreen()),
+                );
+              },
+              child: const Text('Ver Perfil'),
+            ), 
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FormularioCitaScreen()),
+                );
+              },
+              child: const Text('Agregar Cita'), // Botón para agregar citas
+            ),
+          ],
+        ),
       ),
     );
   }

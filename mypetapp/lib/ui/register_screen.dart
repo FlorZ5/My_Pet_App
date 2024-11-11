@@ -176,13 +176,15 @@ class RegisterScreen extends StatelessWidget {
       backgroundColor: Colors.black,
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
+        child: Center( // Centra el contenido horizontalmente
         child: Padding(          
         padding: const EdgeInsets.all(16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
            Container(
-          margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
+          margin: const EdgeInsets.only(top: 50.0,),
           child:  Image.asset(
               'lib/assets/icono.png', // Cambia a la ruta de tu imagen
               height: 100,
@@ -190,7 +192,7 @@ class RegisterScreen extends StatelessWidget {
             ), 
             ),
           Container(
-          margin: const EdgeInsets.only(top: 30.0, bottom: 20.0),
+          margin: const EdgeInsets.only(top: 30.0),
           child: const Text("Registro", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0, color: Colors.white,),), 
           ), 
         Container(
@@ -229,7 +231,7 @@ class RegisterScreen extends StatelessWidget {
           Container(
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
-        margin: const EdgeInsets.only(top: 40.0), // Margen externo
+        margin: const EdgeInsets.only(top: 40.0, bottom: 20.0), // Margen externo
         child: TextField(
           controller: edadController,
           keyboardType: TextInputType.number,
@@ -317,12 +319,11 @@ class RegisterScreen extends StatelessWidget {
             Container(
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
-        margin: const EdgeInsets.only(top: 40.0), // Margen externo
+        margin: const EdgeInsets.only(top: 40.0, bottom: 20.0), // Margen externo
         child: TextField(
           controller: razaController,
-          keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: 'Raza',            
+            labelText: 'Raza',                       
             labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
@@ -538,7 +539,7 @@ class RegisterScreen extends StatelessWidget {
             ),
           ),
           Container(
-          margin: const EdgeInsets.only(top: 40.0,),
+          margin: const EdgeInsets.only(top: 40.0, bottom: 40),
           child: ElevatedButton(onPressed: () => _registrar(context),
           style: ElevatedButton.styleFrom(
               foregroundColor: Colors.white, 
@@ -551,6 +552,7 @@ class RegisterScreen extends StatelessWidget {
           )
         ],
       ),
+      )
       )
       )
     );

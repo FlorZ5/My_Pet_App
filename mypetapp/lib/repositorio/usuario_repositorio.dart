@@ -50,30 +50,40 @@ class UsuarioRepository {
   if (users.isNotEmpty) {
     String hashedPassword = users[0]['password'];
     if (BCrypt.checkpw(password, hashedPassword)) {
-      return users[0]['id'].toString(); // Devuelve el ID del usuario como String
+      return users[0]['idUsuario'].toString(); // Devuelve el ID del usuario como String
     }
   }
   return null; // Devuelve null si el usuario no existe o la contraseña es incorrecta
-}
-}
+  }
 
-
-/*class UsuarioRepositorio {
-  final AyudanteBaseDatos _ayudanteBaseDatos = AyudanteBaseDatos();
+  Future<Usuario?> obtenerPerfil(String idUsuario) async {
+  final db = await _dbHelper.database;
   
-  Future <List<Usuario>> obtenerTodosLosUsuarios() async {
-    return await _ayudanteBaseDatos.obtenerUsuarios();
+  // Consulta el perfil del usuario por ID
+  final List<Map<String, dynamic>> maps = await db.query(
+    'usuario',
+    where: 'idUsuario = ?',
+    whereArgs: [idUsuario],
+  );
+
+  if (maps.isNotEmpty) {
+    return Usuario.fromMap(maps.first); // Retorna el usuario encontrado
+  }
+  return null; // Retorna null si no encuentra el usuario
   }
 
-  Future <void> agregarUsuario(Usuario usuario) async {
-    await _ayudanteBaseDatos.insertarUsuario(usuario);
+  Future<bool> actualizarPerfil(Usuario usuario) async {
+  final db = await _dbHelper.database;
+
+  // Actualiza el perfil del usuario en la base de datos
+  int rowsAffected = await db.update(
+    'usuario',
+    usuario.toMap(),
+    where: 'idUsuario = ?',
+    whereArgs: [usuario.idUsuario],
+  );
+
+  return rowsAffected > 0; // Retorna true si se actualizó correctamente
   }
 
-  Future <void> actualizarUsuario(Usuario usuario) async {
-    await _ayudanteBaseDatos.actualizarUsuario(usuario);
-  }
-
-  Future <void> eliminarUsuario(int idUsuario) async {
-    await _ayudanteBaseDatos.eliminarUsuario(idUsuario);
-  }
-}*/
+}

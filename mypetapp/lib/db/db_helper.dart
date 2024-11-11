@@ -16,7 +16,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'user_database.db');
+    String path = join(await getDatabasesPath(), 'mypetapp.db');
     return await openDatabase(
       path,
       version: 1,
@@ -25,9 +25,10 @@ class DatabaseHelper {
   }
 
   Future<void> _crearTablas(Database db, int version) async {
+    // Creación de la tabla usuario
     await db.execute(
       '''
-      CREATE TABLE usuario(
+      CREATE TABLE IF NOT EXISTS usuario (
         idUsuario INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL,
         edad INTEGER NOT NULL CHECK(edad >= 0),
@@ -41,78 +42,19 @@ class DatabaseHelper {
       )
       '''
     );
-  }
-}
 
-/*class AyudanteBaseDatos{
-  static final AyudanteBaseDatos _instancia = AyudanteBaseDatos._interno();
-  static Database? _baseDatos;
-  
-  factory AyudanteBaseDatos()=> _instancia;
-
-  AyudanteBaseDatos._interno();
-
-  Future<Database> get baseDatos async{
-    if (_baseDatos !=null) return _baseDatos!;
-    _baseDatos = await _inicializarBaseDatos();
-    return _baseDatos!;
-  }
-
-  Future <Database> _inicializarBaseDatos() async {
-    String ruta = join(await getDatabasesPath(), 'mypetapp.db');
-    return await openDatabase(
-      ruta,
-      version: 1, 
-      onCreate: _crearTablas,
-    );
-  }
-
-  Future<void> _crearTablas(Database db, int version) async {
+    // Creación de la tabla citas
     await db.execute(
       '''
-          CREATE TABLE usuario(
-          idUusario INTEGER PRIMARY KEY AUTOINCREMENT,
-          nombre TEXT NOT NULL,
-          edad INTEGER NOT NULL,
-          especie TEXT NOT NULL,
-          raza TEXT NOT NULL,
-          color TEXT NOT NULL,
-          peso REAL NOT NULL,
-          correo TEXT NOT NULL,
-          usuario TEXT NOT NULL UNIQUE,
-          password TEXT NOT NULL UNIQUE
-          )
+      CREATE TABLE IF NOT EXISTS citas (
+        idCita INTEGER PRIMARY KEY AUTOINCREMENT,
+        fecha TEXT,
+        hora TEXT,
+        tipo TEXT,
+        idUsuario INTEGER,
+        FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario)
+      )
       '''
     );
   }
-
-  Future <int> insertarUsuario(Usuario usuario) async {
-    final db = await baseDatos;
-    return await db.insert('usuarios', usuario.toMap());
-  }
-
-  Future <List<Usuario>>  obtenerUsuarios() async {
-    final db = await baseDatos;
-    final List<Map<String, dynamic>> mapas = await db.query('usuarios');
-    return List.generate(mapas.length, (i)=>Usuario.fromMap(mapas[i]));
-  }
-
-  Future <int> actualizarUsuario(Usuario usuario) async {
-    final db = await baseDatos;
-    return await db.update(
-      'usuarios',
-      usuario.toMap(),
-      where:' idUsuario= ?',
-      whereArgs: [usuario.idUsuario]
-    );
-  }
-
-  Future <int> eliminarUsuario(int idUsuario) async {
-    final db = await baseDatos;
-    return await db.delete(
-      'usuarios',
-      where: 'idUsuario= ?',
-      whereArgs: [idUsuario],
-    );
-  }
-}*/
+}

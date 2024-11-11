@@ -33,14 +33,14 @@ class LoginScreen extends StatelessWidget {
     return;
   }
   
-  String? userId = await _usuarioProvider.iniciarSesion(
+  String? idUsuario = await _usuarioProvider.iniciarSesion(
     usuarioController.text,
     passwordController.text,
   );
 
-  if (userId != null) {
+  if (idUsuario != null) {
     // Guardar el ID del usuario en la sesión
-    await SessionManager.saveUserId(userId);
+    await SessionManager.saveUserId(idUsuario);
 
     showDialog(
       // ignore: use_build_context_synchronously
@@ -90,10 +90,14 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Padding(
+       resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Center( 
+      child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
           margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
@@ -146,9 +150,11 @@ class LoginScreen extends StatelessWidget {
         margin: const EdgeInsets.only(top: 40.0), // Margen externo
         child: TextField(
           controller: passwordController,
+          obscureText: true,
           decoration: InputDecoration(
             labelText: 'Contraseña',
             labelStyle: const TextStyle(fontSize: 18.0), // Cambiar tamaño de letra
+            floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true, // Habilitar el fondo del TextField
             fillColor: Colors.white, // Color de fondo blanco
             border: OutlineInputBorder(
@@ -208,6 +214,8 @@ class LoginScreen extends StatelessWidget {
         ),
         ],
       ),
+    )
+    )
     )
     );
   }

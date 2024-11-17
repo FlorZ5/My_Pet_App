@@ -16,7 +16,7 @@ class DatabaseHelper {
   }
 
   Future<Database> _initDatabase() async {
-    String path = join(await getDatabasesPath(), 'mypetapp.db');
+    String path = join(await getDatabasesPath(), 'mypetapp2.db');
     return await openDatabase(
       path,
       version: 1,
@@ -33,6 +33,7 @@ class DatabaseHelper {
         nombre TEXT NOT NULL,
         edad INTEGER NOT NULL CHECK(edad >= 0),
         especie TEXT NOT NULL,
+        sexo Text NOT NULL,
         raza TEXT NOT NULL,
         color TEXT NOT NULL,
         peso REAL NOT NULL,
@@ -56,5 +57,20 @@ class DatabaseHelper {
       )
       '''
     );
+
+    await db.execute(
+      '''
+      CREATE TABLE IF NOT EXISTS vacunas (
+        idVacuna INTEGER PRIMARY KEY AUTOINCREMENT,
+        nombre TEXT,
+        dosis TEXT,
+        marca TEXT,
+        fecha TEXT,
+        idUsuario INTEGER,
+        FOREIGN KEY (idUsuario) REFERENCES usuario (idUsuario)
+      )
+      '''
+    );
+
   }
 }

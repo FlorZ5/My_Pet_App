@@ -3,6 +3,7 @@ class Usuario {
   String nombre;
   int  edad;
   String especie;
+  String sexo;
   String raza;
   String color;
   double peso;
@@ -10,7 +11,7 @@ class Usuario {
   String usuario;
   String password;
 
-  Usuario({this.idUsuario, required this.nombre, required this.edad, required this.especie, required this.raza, required this.color, required this.peso, required this.correo, required this.usuario, required this.password});
+  Usuario({this.idUsuario, required this.nombre, required this.edad, required this.especie, required this.sexo, required this.raza, required this.color, required this.peso, required this.correo, required this.usuario, required this.password});
   
   Map<String, dynamic> toMap(){
     return{
@@ -18,6 +19,7 @@ class Usuario {
       'nombre':nombre,
       'edad':edad,
       'especie':especie,
+      'sexo':sexo,
       'raza':raza,
       'color':color,
       'peso':peso,
@@ -32,6 +34,7 @@ class Usuario {
       nombre:map['nombre'],
       edad: map['edad'],
       especie: map ['especie'],
+      sexo: map ['sexo'],
       raza: map['raza'],
       color: map['color'],
       peso: map['peso'],

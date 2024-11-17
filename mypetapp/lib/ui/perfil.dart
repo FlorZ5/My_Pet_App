@@ -48,6 +48,7 @@ class _PerfilUsuarioScreenState extends State<PerfilUsuarioScreen> {
                   Text('Nombre: ${_usuario!.nombre}', style: const TextStyle(fontSize: 18)),
                   Text('Edad: ${_usuario!.edad}', style: const TextStyle(fontSize: 18)),
                   Text('Especie: ${_usuario!.especie}', style: const TextStyle(fontSize: 18)),
+                  Text('Sexo: ${_usuario!.sexo}', style: const TextStyle(fontSize: 18)),
                   Text('Raza: ${_usuario!.raza}', style: const TextStyle(fontSize: 18)),
                   Text('Color: ${_usuario!.color}', style: const TextStyle(fontSize: 18)),
                   Text('Peso: ${_usuario!.peso}', style: const TextStyle(fontSize: 18)),

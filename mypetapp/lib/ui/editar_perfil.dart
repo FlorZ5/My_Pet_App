@@ -17,6 +17,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
   final UsuarioProvider _usuarioProvider = UsuarioProvider();
 
   final ValueNotifier<String?> especieNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> sexoNotifier = ValueNotifier(null);
   final ValueNotifier<String?> colorNotifier = ValueNotifier(null);
 
   late TextEditingController _nombreController;
@@ -32,6 +33,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
     _nombreController = TextEditingController(text: widget.usuario.nombre);
     _edadController = TextEditingController(text: widget.usuario.edad.toString());
     especieNotifier.value = widget.usuario.especie;
+    sexoNotifier.value = widget.usuario.sexo;
     _razaController = TextEditingController(text: widget.usuario.raza);
     colorNotifier.value = widget.usuario.color;
     _pesoController = TextEditingController(text: widget.usuario.peso.toString());
@@ -71,12 +73,30 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
       return false;
     }
 
+    // Validación de Especie
+    if (especieNotifier.value == null) {
+      _mensajeError = "Por favor, selecciona una especie.";
+      return false;
+    }
+
+    // Validación de Especie
+    if (sexoNotifier.value == null) {
+      _mensajeError = "Por favor, selecciona un tipo se sexo";
+      return false;
+    }
+
     // Validación de Raza
     if (_razaController.text.isEmpty || 
         _razaController.text.length < 3 || 
         _razaController.text.length > 25 || 
         !RegExp(r'^[a-zA-Z\s]+$').hasMatch(_razaController.text)) {
       _mensajeError = "La raza debe tener entre 3 y 25 letras y no debe estar vacía.";
+      return false;
+    }
+
+    // Validación de Color
+    if (colorNotifier.value == null) {
+      _mensajeError = "Por favor, selecciona un color.";
       return false;
     }
 
@@ -106,18 +126,6 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
       return false;
     }
 
-    // Validación de Especie
-    if (especieNotifier.value == null) {
-      _mensajeError = "Por favor, selecciona una especie.";
-      return false;
-    }
-
-    // Validación de Color
-    if (colorNotifier.value == null) {
-      _mensajeError = "Por favor, selecciona un color.";
-      return false;
-    }
-
     // Si pasa todas las validaciones
     _mensajeError = null;
     return true;
@@ -130,6 +138,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
         nombre: _nombreController.text,
         edad: int.parse(_edadController.text),
         especie: especieNotifier.value ?? '',
+        sexo: sexoNotifier.value ?? '',
         raza: _razaController.text,
         color: colorNotifier.value ?? '',
         peso: double.parse(_pesoController.text),
@@ -244,6 +253,27 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
                         .toList(),
                     onChanged: (val) => especieNotifier.value = val,
                     validator: (value) => value == null ? 'Seleccione la especie' : null,
+                  );
+                },
+              ),
+              ValueListenableBuilder<String?>(
+                valueListenable: sexoNotifier,
+                builder: (context, sexo, _) {
+                  return DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Sexo',
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    value: sexo,
+                    items: ['Macho', 'Hembra',]
+                        .map((item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(item),
+                            ))
+                        .toList(),
+                    onChanged: (val) => sexoNotifier.value = val,
+                    validator: (value) => value == null ? 'Seleccione el sexo' : null,
                   );
                 },
               ),

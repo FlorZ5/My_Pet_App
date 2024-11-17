@@ -18,6 +18,7 @@ class RegisterScreen extends StatelessWidget {
 
   //listas desplegables
   final ValueNotifier<String?> especieNotifier = ValueNotifier<String?>(null);
+  final ValueNotifier<String?> sexoNotifier = ValueNotifier<String?>(null);
   final ValueNotifier<String?> colorNotifier = ValueNotifier<String?>(null);
 
   RegisterScreen({super.key});
@@ -37,9 +38,27 @@ class RegisterScreen extends StatelessWidget {
       return false;
     }
 
+    // Validación de Especie
+    if (especieNotifier.value == null) {
+      _mensajeError= "Por favor, selecciona una especie.";
+      return false;
+    } 
+
+  // Validación de Sexo
+    if (sexoNotifier.value == null) {
+      _mensajeError= "Por favor, selecciona un tipo de sexo.";
+      return false;
+    } 
+
     // Validación de Raza
     if (razaController.text.isEmpty || razaController.text.length < 3 || edadController.text.length > 25 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(razaController.text)) {
       _mensajeError= "La raza debe tener entre 3 y 25 letras y no debe estar vacía.";
+      return false;
+    }
+
+    // Validación de Color
+    if (colorNotifier.value == null) {
+      _mensajeError= "Por favor, selecciona un color.";
       return false;
     }
 
@@ -65,18 +84,6 @@ class RegisterScreen extends StatelessWidget {
     if (passwordController.text.isEmpty || passwordController.text.length < 8 || 
         !RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$').hasMatch(passwordController.text)) {
       _mensajeError= "La contraseña debe tener 8 caracteres y contener al menos una letra y un número.";
-      return false;
-    }
-
-    // Validación de Especie
-    if (especieNotifier.value == null) {
-      _mensajeError= "Por favor, selecciona una especie.";
-      return false;
-    }
-
-    // Validación de Color
-    if (colorNotifier.value == null) {
-      _mensajeError= "Por favor, selecciona un color.";
       return false;
     }
 
@@ -112,6 +119,7 @@ class RegisterScreen extends StatelessWidget {
       nombre: nombreController.text,
       edad: int.tryParse(edadController.text) ?? 0,
       especie: especieNotifier.value ?? "Especie",
+      sexo: sexoNotifier.value ?? "Sexo",
       raza: razaController.text,
       color: colorNotifier.value ?? "Color",
       peso: double.tryParse(edadController.text) ?? 0,
@@ -263,6 +271,61 @@ class RegisterScreen extends StatelessWidget {
             ),
           ),
           ValueListenableBuilder<String?>(
+              valueListenable: sexoNotifier,
+              builder: (context, sexo, _) {
+              return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Sexo', // Etiqueta que aparece fuera del campo
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Color.fromARGB(137, 255, 255, 255),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+              Container(
+                width: 305.0, // Ancho del contenedor
+                height: 47.0, // Altura del contenedor
+                margin: const EdgeInsets.only(bottom: 30.0),
+              decoration: BoxDecoration(
+                color: Colors.white, // Fondo blanco
+                borderRadius: BorderRadius.circular(15.0), // Borde redondeado
+                border: Border.all(
+                  color: const Color(0xFF00B2FF), // Color del borde
+                  width: 2.0, // Ancho del borde
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto, // Oculta la etiqueta al seleccionar
+                    border: InputBorder.none, // Sin borde adicional
+                    filled: true, // Activa el color de fondo
+                    fillColor: Colors.white, // Fondo blanco en el campo de texto
+                    ),                                   
+                  value: sexo,
+                  items: ['Macho', 'Hembra',]
+                      .map((sexo) => DropdownMenuItem(
+                            value: sexo,
+                            
+                            child: Text(
+                              sexo,
+                              style: const TextStyle(fontSize: 20.0),
+
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (val) => sexoNotifier.value = val,
+                  style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
+                  ),
+                )
+                )
+                ]
+                );
+              },
+            ),
+            ValueListenableBuilder<String?>(
               valueListenable: especieNotifier,
               builder: (context, especie, _) {
               return Column(
@@ -279,6 +342,7 @@ class RegisterScreen extends StatelessWidget {
               Container(
                 width: 305.0, // Ancho del contenedor
                 height: 47.0, // Altura del contenedor
+                margin: const EdgeInsets.only(top: 0.0),
               decoration: BoxDecoration(
                 color: Colors.white, // Fondo blanco
                 borderRadius: BorderRadius.circular(15.0), // Borde redondeado
@@ -298,12 +362,10 @@ class RegisterScreen extends StatelessWidget {
                   value: especie,
                   items: ['Gato', 'Perro', 'Ave', 'Pez', 'Hámster', 'Conejo', 'Tortuga']
                       .map((especie) => DropdownMenuItem(
-                            value: especie,
-                            
+                            value: especie,                            
                             child: Text(
                               especie,
                               style: const TextStyle(fontSize: 20.0),
-
                             ),
                           ))
                       .toList(),

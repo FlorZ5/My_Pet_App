@@ -27,6 +27,7 @@ class UsuarioRepository {
       'nombre': usuario.nombre,
       'edad': usuario.edad,
       'especie': usuario.especie,
+      'sexo': usuario.sexo,
       'raza': usuario.raza,
       'color': usuario.color,
       'peso': usuario.peso,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'ui/login_screen.dart';
 import 'proveedor/cita_proveedor.dart';
+import 'proveedor/vacuna_proveedor.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,9 +18,10 @@ class MyApp extends StatelessWidget {
      return MultiProvider(
       providers: [
         ChangeNotifierProvider<CitaProveedor>(create: (_) => CitaProveedor()),
+        ChangeNotifierProvider<VacunaProveedor>(create: (_) => VacunaProveedor()),
       ],
     child: MaterialApp(
-      title: 'App de Usuarios',
+      title: 'My pet app',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),

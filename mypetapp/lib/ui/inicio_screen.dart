@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mypetapp/ui/agregar_vacuna.dart';
 import '../utils/session_manager.dart';
 import 'login_screen.dart';
 import 'perfil.dart';
 import 'agregar_cita.dart';
+import 'agregar_vacuna.dart';
+import 'agregar_historial.dart';
 
 class PaginaInicio extends StatelessWidget {
   const PaginaInicio({super.key});
@@ -63,7 +64,17 @@ class PaginaInicio extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const FormularioVacunaScreen()),
                 );
               },
-              child: const Text('Agregar Vacuna'), // Botón para agregar citas
+              child: const Text('Agregar Vacuna'), // Botón para agregar vacunas
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const FormularioHistorialScreen()),
+                );
+              },
+              child: const Text('Agregar historial'), // Botón para agregar historial
             ),
           ],
         ),

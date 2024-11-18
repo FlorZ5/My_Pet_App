@@ -88,10 +88,7 @@ void _mostrarAlerta(String mensaje) {
         Navigator.pop(context);
       } else {
         // Manejo de error si no hay sesión activa
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("No se ha encontrado un usuario logueado."),
-        ));
+        _mostrarAlerta("No se ha encontrado un usuario logueado.");
       }
     }
   }

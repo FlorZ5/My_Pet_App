@@ -57,12 +57,27 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
         // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
-        // Manejo de error si no hay sesión activa
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text("No se ha encontrado un usuario logueado."),
-        ));
-      }
+  // Manejo de error si no hay sesión activa
+  showDialog(
+    // ignore: use_build_context_synchronously
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text("Error"),
+        content: const Text("No se ha encontrado un usuario logueado."),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Cierra el diálogo
+            },
+            child: const Text("Aceptar"),
+          ),
+        ],
+      );
+    },
+  );
+}
+
     }
   }
 }

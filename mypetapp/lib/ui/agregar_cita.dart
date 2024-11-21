@@ -105,7 +105,7 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
                     context: context,
                     initialDate: DateTime.now(), // Fecha inicial
                     firstDate: DateTime.now(), // Fecha mínima
-                    lastDate: DateTime(2101), // Fecha máxima
+                    lastDate: DateTime(2099), // Fecha máxima
                   );
 
                   if (pickedDate != null) {

@@ -4,6 +4,8 @@ import '../modelos/vacunas_modelo.dart';
 import '../proveedor/vacuna_proveedor.dart';
 import 'vacunas.dart';
 import '../utils/session_manager.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:intl/intl.dart';
 
 class FormularioVacunaScreen extends StatefulWidget {
   const FormularioVacunaScreen({super.key});
@@ -20,6 +22,7 @@ class _FormularioVacunaScreen extends State<FormularioVacunaScreen> {
   late TextEditingController _fechaController;
   final ValueNotifier<String?> dosisNotifier = ValueNotifier<String?>(null);
   bool _alertaMostrando = false;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -162,20 +165,41 @@ class _FormularioVacunaScreen extends State<FormularioVacunaScreen> {
                 controller: _fechaController,
                 decoration: const InputDecoration(
                   labelText: 'Fecha',
-                  suffixIcon: Icon(Icons.calendar_today), // Icono de calendario para indicar la selección de fecha
+                  suffixIcon: Icon(Icons.calendar_today), // Icono de calendario
                 ),
-                readOnly: true, // Evita que el usuario escriba manualmente
+                readOnly: true,
                 onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
+                  showDialog(
                     context: context,
-                    initialDate: DateTime(2000), // Fecha inicial
-                    firstDate: DateTime.now(), // Fecha mínima
-                    lastDate: DateTime(2101), // Fecha máxima
+                    builder: (context) {
+                      return AlertDialog(
+                          content: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxHeight: 300, // Limitar la altura del calendario
+                            ),
+                          child: SizedBox(
+                          height: 300,
+                          width: 300,
+                           child: Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                          child: DayPicker.single(
+                            selectedDate: selectedDate,
+                            onChanged: (DateTime date) {
+                              setState(() {
+                                selectedDate = date;
+                                _fechaController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+                              });
+                              Navigator.pop(context);
+                            },
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2099),
+                          ),
+                        ),
+                        )
+                        )
+                      );
+                    },
                   );
-                  if (pickedDate != null) {
-                    String formattedDate = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                    _fechaController.text = formattedDate; // Asigna la fecha seleccionada al controlador
-                  }
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {

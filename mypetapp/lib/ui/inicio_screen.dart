@@ -5,6 +5,7 @@ import 'perfil.dart';
 import 'agregar_cita.dart';
 import 'agregar_vacuna.dart';
 import 'agregar_historial.dart';
+import 'contactos.dart';
 
 class PaginaInicio extends StatelessWidget {
   const PaginaInicio({super.key});
@@ -36,7 +37,7 @@ class PaginaInicio extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('¡Bienvenido a la aplicación!'),
-            const SizedBox(height: 20),
+            const SizedBox(height: 20),            
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -75,6 +76,16 @@ class PaginaInicio extends StatelessWidget {
                 );
               },
               child: const Text('Agregar historial'), // Botón para agregar historial
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaginaContactos()),
+                );
+              },
+              child: const Text('Contactos'), // Botón para agregar historial
             ),
           ],
         ),

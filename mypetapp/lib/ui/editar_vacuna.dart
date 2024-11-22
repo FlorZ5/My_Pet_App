@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../modelos/vacunas_modelo.dart';
 import '../proveedor/vacuna_proveedor.dart';
 import '../utils/session_manager.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:intl/intl.dart';
 
 class EditarVacunaScreen extends StatefulWidget {
   final Vacuna vacuna;
@@ -21,6 +23,7 @@ class _EditarVacunaScreenState extends State<EditarVacunaScreen> {
   late TextEditingController _fechaController;
   final dosisNotifier = ValueNotifier<String?>(null);
   bool _alertaMostrando = false;
+  late DateTime selectedDate;
 
   @override
   void initState() {
@@ -28,6 +31,7 @@ class _EditarVacunaScreenState extends State<EditarVacunaScreen> {
     _nombreController = TextEditingController(text: widget.vacuna.nombre);
     _marcaController = TextEditingController(text: widget.vacuna.marca);
     _fechaController = TextEditingController(text: widget.vacuna.fecha);
+    selectedDate = DateFormat('dd/MM/yyyy').parse(widget.vacuna.fecha);
     dosisNotifier.value = widget.vacuna.dosis;
   }
 
@@ -164,6 +168,7 @@ void _cancelarEdicion() {
                   return null;
                 },
               ),
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _fechaController,
                 decoration: const InputDecoration(
@@ -172,17 +177,34 @@ void _cancelarEdicion() {
                 ),
                 readOnly: true,
                 onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
+                  showDialog(
                     context: context,
-                    initialDate: DateTime(2000),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2101),
+                    builder: (context) {
+                      return AlertDialog(
+                        content: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 300,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                            child: DayPicker.single(
+                              selectedDate: selectedDate,
+                              onChanged: (DateTime date) {
+                                setState(() {
+                                  selectedDate = date;
+                                  _fechaController.text =
+                                      DateFormat('dd/MM/yyyy').format(selectedDate);
+                                });
+                                Navigator.pop(context);
+                              },
+                              firstDate: DateTime(2000),
+                              lastDate: DateTime(2099),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   );
-                  if (pickedDate != null) {
-                    String formattedDate =
-                        "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                    _fechaController.text = formattedDate;
-                  }
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {

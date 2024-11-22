@@ -4,6 +4,8 @@ import '../modelos/cita_modelo.dart';
 import '../proveedor/cita_proveedor.dart';
 import 'citas.dart';
 import '../utils/session_manager.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:intl/intl.dart';
 
 class FormularioCitaScreen extends StatefulWidget {
   const FormularioCitaScreen({super.key});
@@ -18,6 +20,8 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
   late TextEditingController _fechaController;
   late TextEditingController _horaController;
   final ValueNotifier<String?> tipoCitaNotifier = ValueNotifier<String?>(null);
+  bool _alertaMostrando = false;
+  DateTime selectedDate = DateTime.now();
 
   @override
   void initState() {
@@ -32,6 +36,30 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
     _horaController.dispose();
     tipoCitaNotifier.dispose();
     super.dispose();
+  }
+
+  void _mostrarAlerta(String mensaje) {
+    if (!_alertaMostrando) {
+      _alertaMostrando = true;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error de Validación"),
+            content: Text(mensaje),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  _alertaMostrando = false;
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _guardarCita() async {
@@ -57,27 +85,9 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
         // ignore: use_build_context_synchronously
         Navigator.pop(context);
       } else {
-  // Manejo de error si no hay sesión activa
-  showDialog(
-    // ignore: use_build_context_synchronously
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: const Text("Error"),
-        content: const Text("No se ha encontrado un usuario logueado."),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Cierra el diálogo
-            },
-            child: const Text("Aceptar"),
-          ),
-        ],
-      );
-    },
-  );
-}
-
+        // Manejo de error si no hay sesión activa
+        _mostrarAlerta("No se ha encontrado un usuario logueado.");
+      }
     }
   }
 }
@@ -97,23 +107,49 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
                 controller: _fechaController,
                 decoration: const InputDecoration(
                   labelText: 'Fecha',
-                  suffixIcon: Icon(Icons.calendar_today), // Icono de calendario para indicar la selección de fecha
+                  suffixIcon: Icon(Icons.calendar_today), // Icono de calendario
                 ),
-                readOnly: true, // Evita que el usuario escriba manualmente
+                readOnly: true,
                 onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
+                  showDialog(
                     context: context,
-                    initialDate: DateTime.now(), // Fecha inicial
-                    firstDate: DateTime.now(), // Fecha mínima
-                    lastDate: DateTime(2099), // Fecha máxima
+                    builder: (context) {
+                      return AlertDialog(
+                          content: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxHeight: 300, // Limitar la altura del calendario
+                            ),
+                          child: SizedBox(
+                          height: 300,
+                          width: 300,
+                           child: Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                          child: DayPicker.single(
+                            selectedDate: selectedDate,
+                            onChanged: (DateTime date) {
+                              setState(() {
+                                selectedDate = date;
+                                _fechaController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+                              });
+                              Navigator.pop(context);
+                            },
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2099),
+                          ),
+                        ),
+                        )
+                        )
+                      );
+                    },
                   );
-
-                  if (pickedDate != null) {
-                    String formattedDate = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                    _fechaController.text = formattedDate; // Asigna la fecha seleccionada al controlador
-                  }
                 },
-                validator: (value) => value!.isEmpty ? 'Ingrese la fecha' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    _mostrarAlerta('Ingrese la fecha de la cita.');
+                    return '';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _horaController,
@@ -136,7 +172,13 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
                     _horaController.text = formattedTime; // Asigna la hora seleccionada al controlador
                   }
                 },
-                validator: (value) => value!.isEmpty ? 'Ingrese la hora' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    _mostrarAlerta('Ingrese la hora de la cita.');
+                    return '';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               ValueListenableBuilder<String?>(
@@ -155,8 +197,13 @@ class _FormularioCitaScreenState extends State<FormularioCitaScreen> {
                             ))
                         .toList(),
                     onChanged: (val) => tipoCitaNotifier.value = val,
-                    validator: (value) =>
-                        value == null ? 'Seleccione el tipo de cita' : null,
+                     validator: (value) {
+                      if (value == null) {
+                        _mostrarAlerta('Seleccione el tipo de cita.');
+                        return '';
+                      }
+                      return null;
+                    },
                   );
                 },
               ),

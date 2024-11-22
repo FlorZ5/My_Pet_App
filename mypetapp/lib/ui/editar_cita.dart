@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import '../modelos/cita_modelo.dart';
 import '../proveedor/cita_proveedor.dart';
 import '../utils/session_manager.dart';
+import 'package:flutter_date_pickers/flutter_date_pickers.dart';
+import 'package:intl/intl.dart';
 
 class EditarCitaScreen extends StatefulWidget {
   final Cita cita;
@@ -19,11 +21,14 @@ class _EditarCitaScreenState extends State<EditarCitaScreen> {
   late TextEditingController _fechaController;
   late TextEditingController _horaController;
   final tipoCitaNotifier = ValueNotifier<String?>(null);
+  bool _alertaMostrando = false;
+  late DateTime selectedDate;
 
   @override
   void initState() {
     super.initState();
     _fechaController = TextEditingController(text: widget.cita.fecha);
+    selectedDate = DateFormat('dd/MM/yyyy').parse(widget.cita.fecha);
     _horaController = TextEditingController(text: widget.cita.hora);
     tipoCitaNotifier.value = widget.cita.tipo;
   }
@@ -34,6 +39,30 @@ class _EditarCitaScreenState extends State<EditarCitaScreen> {
     _horaController.dispose();
      tipoCitaNotifier.dispose();
     super.dispose();
+  }
+
+  void _mostrarAlerta(String mensaje) {
+    if (!_alertaMostrando) {
+      _alertaMostrando = true;
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Error de Validación"),
+            content: Text(mensaje),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  _alertaMostrando = false;
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   void _actualizarCita() async {
@@ -103,23 +132,49 @@ void _cancelarEdicion() {
                 controller: _fechaController,
                 decoration: const InputDecoration(
                   labelText: 'Fecha',
-                  suffixIcon: Icon(Icons.calendar_today),
+                  suffixIcon: Icon(Icons.calendar_today), // Icono de calendario
                 ),
                 readOnly: true,
                 onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
+                  showDialog(
                     context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime.now(),
-                    lastDate: DateTime(2101),
+                    builder: (context) {
+                      return AlertDialog(
+                          content: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxHeight: 300, // Limitar la altura del calendario
+                            ),
+                          child: SizedBox(
+                          height: 300,
+                          width: 300,
+                           child: Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                          child: DayPicker.single(
+                            selectedDate: selectedDate,
+                            onChanged: (DateTime date) {
+                              setState(() {
+                                selectedDate = date;
+                                _fechaController.text = DateFormat('dd/MM/yyyy').format(selectedDate);
+                              });
+                              Navigator.pop(context);
+                            },
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2099),
+                          ),
+                        ),
+                        )
+                        )
+                      );
+                    },
                   );
-                  if (pickedDate != null) {
-                    String formattedDate =
-                        "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                    _fechaController.text = formattedDate;
-                  }
                 },
-                validator: (value) => value!.isEmpty ? 'Ingrese la fecha' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    _mostrarAlerta('Ingrese la fecha de la cita.');
+                    return '';
+                  }
+                  return null;
+                },
               ),
               TextFormField(
                 controller: _horaController,
@@ -138,7 +193,13 @@ void _cancelarEdicion() {
                     _horaController.text = formattedTime;
                   }
                 },
-                validator: (value) => value!.isEmpty ? 'Ingrese la hora' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    _mostrarAlerta('Ingrese la hora de la cita.');
+                    return '';
+                  }
+                  return null;
+                },
               ),
               const SizedBox(height: 20),
               ValueListenableBuilder<String?>(
@@ -151,9 +212,7 @@ void _cancelarEdicion() {
                     ),
                     value: tipo,
                     items: [
-                      'Consulta', 'Revisión', 'Vacunación', 'Desparacitación',
-                      'Control reproductivo', 'Especialidades', 'Examenes de laboratorío',
-                      'Asesoria nutricional', 'Chequeo geriátrico', 'Radiografía', 'Cirugía'
+                      'Consulta', 'Revisión', 'Vacunación', 'Desparacitación','Control reproductivo', 'Especialidades', 'Examenes de laboratorío', 'Asesoria nutricional', 'Chequeo geriátrico', 'Radiografía', 'Cirugía'
                     ]
                         .map((tipoCita) => DropdownMenuItem(
                               value: tipoCita,
@@ -161,7 +220,13 @@ void _cancelarEdicion() {
                             ))
                         .toList(),
                     onChanged: (val) => tipoCitaNotifier.value = val,
-                    validator: (value) => value == null ? 'Seleccione el tipo de cita' : null,
+                     validator: (value) {
+                      if (value == null) {
+                        _mostrarAlerta('Seleccione el tipo de cita.');
+                        return '';
+                      }
+                      return null;
+                    },
                   );
                 },
               ),

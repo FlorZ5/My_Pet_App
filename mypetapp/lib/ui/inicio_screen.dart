@@ -7,6 +7,7 @@ import 'agregar_vacuna.dart';
 import 'agregar_historial.dart';
 import 'contactos.dart';
 import 'conocenos.dart';
+import 'clinicas.dart';
 
 class PaginaInicio extends StatelessWidget {
   const PaginaInicio({super.key});
@@ -97,6 +98,16 @@ class PaginaInicio extends StatelessWidget {
                 );
               },
               child: const Text('Conocenos'), // Botón para agregar historial
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaginaClinicas()),
+                );
+              },
+              child: const Text('Clinicas'), // Botón para agregar historial
             ),
           ],
         ),

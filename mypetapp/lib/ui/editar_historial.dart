@@ -126,7 +126,7 @@ void _cancelarEdicion() {
                   labelText: 'Tratamiento',
                 ),
                  validator: (value) {
-                  if (value == null || value.isEmpty || value.length < 4 || value.length > 500 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                  if (value == null || value.isEmpty || value.length < 4 || value.length > 500 || !RegExp(r'[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]').hasMatch(value)) {
                     _mostrarAlerta('El tratamiento debe tener entre 4 y 500 letras y no debe estar vacío.');
                     return '';
                   }
@@ -150,8 +150,13 @@ void _cancelarEdicion() {
                             ))
                         .toList(),
                     onChanged: (val) => estadoNotifier.value = val,
-                    validator: (value) =>
-                        value == null ? 'Seleccione el estado del tratamiento' : null,
+                     validator: (value) {
+                      if (value == null) {
+                        _mostrarAlerta('Seleccione el estado del tratamiento.');
+                        return '';
+                      }
+                      return null;
+                    },
                   );
                 },
               ),

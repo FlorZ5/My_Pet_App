@@ -17,7 +17,7 @@ class PaginaClinicas extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Clinicas'),
+        title: const Text('Clínicas'),
       ),
       body: ListView(
         padding: const EdgeInsets.all(8.0),

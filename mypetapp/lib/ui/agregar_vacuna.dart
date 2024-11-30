@@ -85,9 +85,12 @@ class _FormularioVacunaScreen extends State<FormularioVacunaScreen> {
         final vacunaProveedor = Provider.of<VacunaProveedor>(context, listen: false);
         await vacunaProveedor.agregarVacuna(vacuna);
 
-        // Volver a la pantalla anterior
+        // Ir a la pantalla vacunas
+        Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
-        Navigator.pop(context);
+        context,
+        MaterialPageRoute(builder: (context) => const VacunasScreen()),
+        );
       } else {
         // Manejo de error si no hay sesión activa
         _mostrarAlerta("No se ha encontrado un usuario logueado.");

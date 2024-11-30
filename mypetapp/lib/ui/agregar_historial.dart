@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../modelos/historial_modelo.dart';
 import '../proveedor/historial_proveedor.dart';
@@ -78,9 +79,12 @@ class _FormularioHistorialScreenState extends State<FormularioHistorialScreen> {
         final historialProveedor = Provider.of<HistorialProveedor>(context, listen: false);
         await historialProveedor.agregarHistorial(historial);
 
-        // Volver a la pantalla anterior
+        // Ir a la pantalla historial
+        Navigator.pushReplacement(
         // ignore: use_build_context_synchronously
-        Navigator.pop(context);
+        context,
+        MaterialPageRoute(builder: (context) => const HistorialScreen()),
+        );
       } else {
         // Manejo de error si no hay sesión activa
         _mostrarAlerta("No se ha encontrado un usuario logueado.");
@@ -119,7 +123,7 @@ class _FormularioHistorialScreenState extends State<FormularioHistorialScreen> {
                   labelText: 'Tratamiento',
                 ),
                  validator: (value) {
-                  if (value == null || value.isEmpty || value.length < 4 || value.length > 500 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
+                  if (value == null || value.isEmpty || value.length < 4 || value.length > 500 || !RegExp(r'[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]').hasMatch(value)) {
                     _mostrarAlerta('El tratamiento debe tener entre 4 y 500 letras y no debe estar vacío.');
                     return '';
                   }
@@ -143,8 +147,13 @@ class _FormularioHistorialScreenState extends State<FormularioHistorialScreen> {
                             ))
                         .toList(),
                     onChanged: (val) => estadoNotifier.value = val,
-                    validator: (value) =>
-                        value == null ? 'Seleccione el estado del tratamiento' : null,
+                     validator: (value) {
+                      if (value == null) {
+                        _mostrarAlerta('Seleccione el estado del tratamiento.');
+                        return '';
+                      }
+                      return null;
+                    },
                   );
                 },
               ),

@@ -38,17 +38,17 @@ class RegisterScreen extends StatelessWidget {
       return false;
     }
 
+    // Validación de Sexo
+        if (sexoNotifier.value == null) {
+          _mensajeError= "Por favor, selecciona un tipo de sexo.";
+          return false;
+        }
+
     // Validación de Especie
     if (especieNotifier.value == null) {
       _mensajeError= "Por favor, selecciona una especie.";
       return false;
-    } 
-
-  // Validación de Sexo
-    if (sexoNotifier.value == null) {
-      _mensajeError= "Por favor, selecciona un tipo de sexo.";
-      return false;
-    } 
+    }  
 
     // Validación de Raza
     if (razaController.text.isEmpty || razaController.text.length < 3 || edadController.text.length > 25 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(razaController.text)) {
@@ -69,7 +69,7 @@ class RegisterScreen extends StatelessWidget {
     }
 
     // Validación de Correo
-    if (correoController.text.isEmpty || correoController.text.length < 10 ||  correoController.text.length > 75 ||  !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(correoController.text)) {
+    if (correoController.text.isEmpty || correoController.text.length < 10 ||  correoController.text.length > 75 ||  !RegExp(r'^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(correoController.text)) {
      _mensajeError= "Por favor, ingresa un correo electrónico válido.";
      return false;
     }
@@ -207,7 +207,7 @@ class RegisterScreen extends StatelessWidget {
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: nombreController,
           decoration: InputDecoration(
             labelText: 'Nombre',
@@ -234,13 +234,14 @@ class RegisterScreen extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            validator: (value) => value!.isEmpty ? 'Ingrese su nombre' : null,
             ),
           ),
           Container(
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0, bottom: 20.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: edadController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
@@ -268,6 +269,7 @@ class RegisterScreen extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            validator: (value) => value!.isEmpty ? 'Ingrese su edad' : null,
             ),
           ),
           ValueListenableBuilder<String?>(
@@ -317,6 +319,7 @@ class RegisterScreen extends StatelessWidget {
                           ))
                       .toList(),
                   onChanged: (val) => sexoNotifier.value = val,
+                  validator: (value) => value == null ? 'Seleccione el sexo' : null,
                   style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
                   ),
                 )
@@ -370,6 +373,7 @@ class RegisterScreen extends StatelessWidget {
                           ))
                       .toList(),
                   onChanged: (val) => especieNotifier.value = val,
+                  validator: (value) => value == null ? 'Seleccione la especie' : null,
                   style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
                   ),
                 )
@@ -382,7 +386,7 @@ class RegisterScreen extends StatelessWidget {
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0, bottom: 20.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: razaController,
           decoration: InputDecoration(
             labelText: 'Raza',                       
@@ -407,7 +411,8 @@ class RegisterScreen extends StatelessWidget {
                 borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
-            ),
+            ),            
+            validator: (value) => value!.isEmpty ? 'Ingrese la raza' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
@@ -454,7 +459,8 @@ class RegisterScreen extends StatelessWidget {
                             ),
                           ))
                       .toList(),
-                  onChanged: (val) => colorNotifier.value = val,
+                  onChanged: (val) => colorNotifier.value = val,                  
+                    validator: (value) => value == null ? 'Seleccione el color' : null,
                   style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
                 )
               )
@@ -467,7 +473,7 @@ class RegisterScreen extends StatelessWidget {
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: pesoController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
@@ -494,6 +500,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
+            validator: (value) => value!.isEmpty ? 'Ingrese el peso' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
@@ -501,7 +508,7 @@ class RegisterScreen extends StatelessWidget {
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: correoController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -528,6 +535,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
+            validator: (value) => value!.isEmpty ? 'Ingrese su correo' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
@@ -535,7 +543,7 @@ class RegisterScreen extends StatelessWidget {
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: usuarioController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
@@ -562,14 +570,15 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
-            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            validator: (value) => value!.isEmpty ? 'Ingrese su nombre de usuario' : null,
+            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado            
             ),
           ),
           Container(
         width: 300, // Ajusta el ancho
         height: 60, // Ajusta la altura
         margin: const EdgeInsets.only(top: 40.0), // Margen externo
-        child: TextField(
+        child: TextFormField(
           controller: passwordController,
           obscureText: true,
           keyboardType: TextInputType.emailAddress,
@@ -597,6 +606,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
+            validator: (value) => value!.isEmpty ? 'Ingrese su nombre contraseña' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),

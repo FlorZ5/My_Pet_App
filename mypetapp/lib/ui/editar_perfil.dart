@@ -228,12 +228,33 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
                 controller: _nombreController,
                 decoration: const InputDecoration(labelText: 'Nombre'),
                 validator: (value) => value!.isEmpty ? 'Ingrese su nombre' : null,
-              ),
+              ),              
               TextFormField(
                 controller: _edadController,
                 decoration: const InputDecoration(labelText: 'Edad'),
                 keyboardType: TextInputType.number,
                 validator: (value) => value!.isEmpty ? 'Ingrese su edad' : null,
+              ),
+               ValueListenableBuilder<String?>(
+                valueListenable: sexoNotifier,
+                builder: (context, sexo, _) {
+                  return DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Sexo',
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    value: sexo,
+                    items: ['Macho', 'Hembra',]
+                        .map((item) => DropdownMenuItem(
+                              value: item,
+                              child: Text(item),
+                            ))
+                        .toList(),
+                    onChanged: (val) => sexoNotifier.value = val,
+                    validator: (value) => value == null ? 'Seleccione el sexo' : null,
+                  );
+                },
               ),
               ValueListenableBuilder<String?>(
                 valueListenable: especieNotifier,
@@ -255,28 +276,7 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
                     validator: (value) => value == null ? 'Seleccione la especie' : null,
                   );
                 },
-              ),
-              ValueListenableBuilder<String?>(
-                valueListenable: sexoNotifier,
-                builder: (context, sexo, _) {
-                  return DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Sexo',
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    value: sexo,
-                    items: ['Macho', 'Hembra',]
-                        .map((item) => DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            ))
-                        .toList(),
-                    onChanged: (val) => sexoNotifier.value = val,
-                    validator: (value) => value == null ? 'Seleccione el sexo' : null,
-                  );
-                },
-              ),
+              ),             
               TextFormField(
                 controller: _razaController,
                 decoration: const InputDecoration(labelText: 'Raza'),

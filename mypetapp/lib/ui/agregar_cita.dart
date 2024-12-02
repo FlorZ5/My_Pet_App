@@ -358,7 +358,7 @@ Widget build(BuildContext context) {
                       child: TextFormField(
                       controller: _fechaController,
                       decoration: InputDecoration(
-                        labelText: 'Fecha',
+                        labelText: 'Fecha de la cita',
                         labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra                        
                         suffixIcon: const Icon(Icons.calendar_today, color: Color.fromARGB(255, 0, 0, 0),), // Icono de calendario    
                         floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
@@ -427,7 +427,7 @@ Widget build(BuildContext context) {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          _mostrarAlerta('Ingrese la fecha de la cita.');
+                          _mostrarAlerta('Ingresa la fecha de la cita.');
                           return '';
                         }
                         return null;
@@ -441,7 +441,7 @@ Widget build(BuildContext context) {
                     child: TextFormField(
                       controller: _horaController,
                       decoration: InputDecoration(
-                        labelText: 'Hora',
+                        labelText: 'Hora de la cita',
                         labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black), // Cambiar tamaño de letra
                         suffixIcon: const Icon(Icons.access_time,  color: Color.fromARGB(255, 0, 0, 0),), // Icono de reloj para indicar la selección de hora
                         floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
@@ -490,7 +490,7 @@ Widget build(BuildContext context) {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          _mostrarAlerta('Ingrese la hora de la cita.');
+                          _mostrarAlerta('Ingresa la hora de la cita.');
                           return '';
                         }
                         return null;
@@ -544,7 +544,7 @@ Widget build(BuildContext context) {
                           onChanged: (val) => tipoCitaNotifier.value = val,
                           validator: (value) {
                             if (value == null) {
-                              _mostrarAlerta('Seleccione el tipo de cita.');
+                              _mostrarAlerta('Selecciona el tipo de cita.');
                               return '';
                             }
                             return null;

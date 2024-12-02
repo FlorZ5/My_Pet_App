@@ -364,7 +364,7 @@ void _cancelarEdicion() {
                       child: TextFormField(
                 controller: _enfermedadController,
                 decoration: InputDecoration(
-                  labelText: 'Enfermedad',
+                  labelText: 'Nombre de la enfermedad',
                   labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra                       
                         floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
                         floatingLabelStyle: const TextStyle(
@@ -398,7 +398,7 @@ void _cancelarEdicion() {
                 style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
                  validator: (value) {
                   if (value == null || value.isEmpty || value.length < 3 || value.length > 50 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                    _mostrarAlerta('El nombre de la enfermedad debe tener entre 3 y 50 letras y no debe estar vacío.');
+                    _mostrarAlerta('El nombre de la enfermedad debe tener entre 3 y 50 letras, no debe estar vacío y no debe contener caracteres especiales ni acentos.');
                     return '';
                   }
                   return null;
@@ -412,7 +412,7 @@ void _cancelarEdicion() {
                       child: TextFormField(
                 controller: _tratamientoController,
                 decoration: InputDecoration(
-                  labelText: 'Tratamiento',
+                  labelText: 'Tratamiento administrado',
                   labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black), // Cambiar tamaño de letra
                         floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
                         floatingLabelStyle: const TextStyle(
@@ -446,7 +446,7 @@ void _cancelarEdicion() {
                 style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
                  validator: (value) {
                   if (value == null || value.isEmpty || value.length < 4 || value.length > 500 || !RegExp(r'[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.,]').hasMatch(value)) {
-                    _mostrarAlerta('El tratamiento debe tener entre 4 y 500 letras y no debe estar vacío.');
+                    _mostrarAlerta('El tratamiento debe tener entre 4 y 500 letras, no debe estar vacío y no debe contener caracteres especiales ni acentos.');
                     return '';
                   }
                   return null;
@@ -499,7 +499,7 @@ void _cancelarEdicion() {
                     onChanged: (val) => estadoNotifier.value = val,
                      validator: (value) {
                       if (value == null) {
-                        _mostrarAlerta('Seleccione el estado del tratamiento.');
+                        _mostrarAlerta('Selecciona el estado del tratamiento.');
                         return '';
                       }
                       return null;

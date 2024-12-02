@@ -406,7 +406,7 @@ void _cancelarEdicion() {
                 style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
                  validator: (value) {
                   if (value == null || value.isEmpty || value.length < 3 || value.length > 50 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)) {
-                    _mostrarAlerta('El nombre de la vacuna debe tener entre 3 y 50 letras y no debe estar vacío.');
+                    _mostrarAlerta('El nombre de la vacuna debe tener entre 3 y 50 letras, no debe estar vacío y no debe contener caracteres especiales ni acentos.');
                     return '';
                   }
                   return null;
@@ -460,7 +460,7 @@ void _cancelarEdicion() {
                     onChanged: (val) => dosisNotifier.value = val,
                     validator: (value) {
                       if (value == null) {
-                        _mostrarAlerta('Seleccione el tipo de dosis.');
+                        _mostrarAlerta('Selecciona el tipo de dosis.');
                         return '';
                       }
                       return null;                      
@@ -515,7 +515,7 @@ void _cancelarEdicion() {
                 style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
                  validator: (value) {
                   if (value == null || value.isEmpty || value.length < 2 || value.length > 30 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(value)){
-                    _mostrarAlerta('La marca de la vacuna debe tener entre 3 y 50 letras y no debe estar vacío.');
+                    _mostrarAlerta('La marca de la vacuna debe tener entre 3 y 50 letras, no debe estar vacío y no debe de contener caracteres especiales ni acentos.');
                     return '';
                   }
                   return null;
@@ -529,7 +529,7 @@ void _cancelarEdicion() {
                       child: TextFormField(
                       controller: _fechaController,
                       decoration: InputDecoration(
-                        labelText: 'Fecha',
+                        labelText: 'Fecha de aplicación',
                         labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra                        
                         suffixIcon: const Icon(Icons.calendar_today, color: Color.fromARGB(255, 0, 0, 0),), // Icono de calendario    
                         floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
@@ -598,7 +598,7 @@ void _cancelarEdicion() {
                       },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          _mostrarAlerta('Ingrese la fecha de la cita.');
+                          _mostrarAlerta('Selecciona la fecha de aplicación de la vacuna.');
                           return '';
                         }
                         return null;

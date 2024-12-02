@@ -320,12 +320,13 @@ class VacunasScreen extends StatelessWidget {
                                   style: const TextStyle(fontSize: 18.5),
                                   textAlign: TextAlign.center
                                 ),
+                                const SizedBox(height: 6),
                                 Text(
-                                  'Fecha: ${vacuna.fecha}',
+                                  'Fecha de aplicación: ${vacuna.fecha}',
                                   style: const TextStyle(fontSize: 18.5),
                                   textAlign: TextAlign.center
                                 ),
-                                const SizedBox(height: 5),
+                                const SizedBox(height: 6),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

@@ -28,62 +28,62 @@ class RegisterScreen extends StatelessWidget {
   bool _validarEntrada() {
     // Validación de Nombre
     if (nombreController.text.isEmpty || nombreController.text.length < 3 ||  nombreController.text.length > 50 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(nombreController.text)) {
-     _mensajeError = "El nombre debe tener entre 3 y 50 letras y no debe estar vacío.";
+     _mensajeError = "El nombre de la mascota debe tener entre 3 y 50 letras, no debe estar vacío y no contener caracteres espciales ni acentos.";
      return false;
     }
 
     // Validación de Edad
     if (edadController.text.isEmpty || edadController.text.length > 2 || int.tryParse(edadController.text) == null || int.parse(edadController.text) <= 0) {
-      _mensajeError= "La edad debe ser un número positivo, no debe estar vacía y no tener más de dos dígitos.";
+      _mensajeError= "La edad de la mascota debe ser un número positivo, no debe estar vacía y no tener más de dos dígitos.";
       return false;
     }
 
     // Validación de Sexo
         if (sexoNotifier.value == null) {
-          _mensajeError= "Por favor, selecciona un tipo de sexo.";
+          _mensajeError= "Por favor, selecciona el sexo de la mascota.";
           return false;
         }
 
     // Validación de Especie
     if (especieNotifier.value == null) {
-      _mensajeError= "Por favor, selecciona una especie.";
+      _mensajeError= "Por favor, selecciona la especie de la mascota.";
       return false;
     }  
 
     // Validación de Raza
     if (razaController.text.isEmpty || razaController.text.length < 3 || edadController.text.length > 25 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(razaController.text)) {
-      _mensajeError= "La raza debe tener entre 3 y 25 letras y no debe estar vacía.";
+      _mensajeError= "La raza de la mascota debe tener entre 3 y 25 letras y no debe estar vacía.";
       return false;
     }
 
     // Validación de Color
     if (colorNotifier.value == null) {
-      _mensajeError= "Por favor, selecciona un color.";
+      _mensajeError= "Por favor, selecciona el color de la mascota.";
       return false;
     }
 
     // Validación de Peso
     if (pesoController.text.isEmpty || double.tryParse(pesoController.text) == null || double.parse(pesoController.text) <= 0) {
-      _mensajeError= "El peso debe ser un número positivo y no debe estar vacío.";
+      _mensajeError= "El peso de la mascota debe ser un número positivo, no debe estar vacio y puede contener un punto decimal.";
       return false;
     }
 
     // Validación de Correo
     if (correoController.text.isEmpty || correoController.text.length < 10 ||  correoController.text.length > 75 ||  !RegExp(r'^[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]*[a-zA-Z0-9])?@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$').hasMatch(correoController.text)) {
-     _mensajeError= "Por favor, ingresa un correo electrónico válido.";
+     _mensajeError= "El correo electronico del dueño debe ser valido y tener una estructura correcta.";
      return false;
     }
 
     // Validación de Usuario
     if (usuarioController.text.isEmpty || usuarioController.text.length < 3 || usuarioController.text.length > 15 || !RegExp(r'^[a-zA-Z0-9]+$').hasMatch(usuarioController.text)) {
-      _mensajeError= "El usuario debe tener entre 3 y 15 letras o numeros y no debe estar vacío.";
+      _mensajeError= "El usuario debe tener entre 3 y 15 letras o números,  no debe estar vacío y no tener más de dos dígitos.";
       return false;
     }
 
     // Validación de Contraseña
     if (passwordController.text.isEmpty || passwordController.text.length < 8 || 
         !RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$').hasMatch(passwordController.text)) {
-      _mensajeError= "La contraseña debe tener 8 caracteres y contener al menos una letra y un número.";
+      _mensajeError= "La contraseña debe contener al menos una letra y un número y tener una extensión de 8 caracteres.";
       return false;
     }
 
@@ -210,7 +210,7 @@ class RegisterScreen extends StatelessWidget {
         child: TextFormField(
           controller: nombreController,
           decoration: InputDecoration(
-            labelText: 'Nombre',
+            labelText: 'Nombre de la mascota',
             labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
@@ -244,7 +244,7 @@ class RegisterScreen extends StatelessWidget {
           controller: edadController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: 'Edad',            
+            labelText: 'Edad de la mascota',            
             labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
@@ -277,7 +277,7 @@ class RegisterScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Sexo', // Etiqueta que aparece fuera del campo
+                  'Sexo de la mascota', // Etiqueta que aparece fuera del campo
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Color.fromARGB(137, 255, 255, 255),
@@ -332,7 +332,7 @@ class RegisterScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Especie', // Etiqueta que aparece fuera del campo
+                  'Especie de la mascota', // Etiqueta que aparece fuera del campo
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Color.fromARGB(137, 255, 255, 255),
@@ -384,7 +384,7 @@ class RegisterScreen extends StatelessWidget {
         child: TextFormField(
           controller: razaController,
           decoration: InputDecoration(
-            labelText: 'Raza',                       
+            labelText: 'Raza de la mascota',                       
             labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
@@ -417,7 +417,7 @@ class RegisterScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Color', // Etiqueta que aparece fuera del campo
+                  'Color de la mascota', // Etiqueta que aparece fuera del campo
                   style: TextStyle(
                     fontSize: 20.0,
                     color: Color.fromARGB(137, 255, 255, 255),
@@ -470,7 +470,7 @@ class RegisterScreen extends StatelessWidget {
           controller: pesoController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: 'Peso',            
+            labelText: 'Peso de la mascota en kilos',            
             labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
@@ -504,7 +504,7 @@ class RegisterScreen extends StatelessWidget {
           controller: correoController,
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
-            labelText: 'Correo',            
+            labelText: 'Correo electrónico del dueño',            
             labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(

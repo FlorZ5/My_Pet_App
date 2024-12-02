@@ -271,6 +271,18 @@ class PaginaConocenos extends StatelessWidget {
                   ],
                 ),
               ),
+              Container(
+                margin: const EdgeInsets.only(left: 20.0, right: 20.0,),
+              child: const Text(
+              "Pet Life es una empresa dedicada a mejorar los cuidados de las mascotas, ayudando a que tengan una mejor calidad de vida y una salud integral.\n"
+              "En Pet Life tenemos mas de 10 años de experiencia en el cuidado de mascotas y manejo integral de su salud.\n"
+              "En nuestra empresa nos dedicamos a brindar servicios veterinarios, de guardería y estetica para mascotas.\n"
+              "Contando con buenas recomendaciones y opiniones de nuestros clientes.\n"
+              "En esta aplicación hemos combinado nuestra experiencia con la necesidades para el cuidado de mascotas, brindando un espacio en donde podrás llevar el control de tu mascota, así como encontrar números de emergencia y clinicas veterinarias cerca de ti. ",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, color: Colors.white),
+              textAlign: TextAlign.justify,
+              ),
+              ),
          Center(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

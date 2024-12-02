@@ -119,7 +119,7 @@ class LoginScreen extends StatelessWidget {
           controller: usuarioController,
           decoration: InputDecoration(
             labelText: 'Usuario',
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -153,7 +153,7 @@ class LoginScreen extends StatelessWidget {
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Contraseña',
-            labelStyle: const TextStyle(fontSize: 18.0), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never,
             filled: true, // Habilitar el fondo del TextField
             fillColor: Colors.white, // Color de fondo blanco
@@ -204,7 +204,7 @@ class LoginScreen extends StatelessWidget {
                   "Regístrate aquí",
                   style: TextStyle(
                     color: Colors.blue,
-                    //decoration: TextDecoration.underline,
+                    decoration: TextDecoration.underline,
                     fontSize: 20.0
                   ),
                 ),

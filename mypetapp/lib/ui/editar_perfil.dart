@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import '../modelos/usuario_modelo.dart'; // Importa el modelo de Usuario
 import '../proveedor/usuario_proveedor.dart'; // Importa el provider
+import 'agregar_cita.dart';
+import 'agregar_historial.dart';
+import 'agregar_vacuna.dart';
+import 'clinicas.dart';
+import 'conocenos.dart';
+import 'contactos.dart';
+import 'inicio_screen.dart';
 
 class EditarPerfilScreen extends StatefulWidget {
   final Usuario usuario;
@@ -149,26 +156,9 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
 
       bool actualizado = await _usuarioProvider.actualizarPerfil(usuarioActualizado);
       if (actualizado) {
-      // Mostrar un diálogo de éxito y redirigir al perfil
-      showDialog(
-        // ignore: use_build_context_synchronously
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Éxito'),
-            content: const Text('El perfil se actualizó correctamente.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); // Cerrar el diálogo
-                  Navigator.pop(context, usuarioActualizado); // Regresar a la pantalla de perfil
-                },
-                child: const Text('Aceptar'),
-              ),
-            ],
-          );
-        },
-      );
+      // Redirigir directamente a la pantalla de perfil
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context, usuarioActualizado); // Regresar a la pantalla de perfil con datos actualizados
     } else {
       // Mostrar un diálogo de error y permanecer en la página de edición
       showDialog(
@@ -212,122 +202,659 @@ class _EditarPerfilScreenState extends State<EditarPerfilScreen> {
   }
 }
 
+void _cancelarEdicion() {
+    // Navegar a la pantalla de citas
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Editar Perfil'),
-      ),
-      body: Padding(
+      backgroundColor: Colors.black,
+    resizeToAvoidBottomInset: true,
+    body: SingleChildScrollView(
+      child: Center(
+        child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
+         child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextFormField(
-                controller: _nombreController,
-                decoration: const InputDecoration(labelText: 'Nombre'),
-                validator: (value) => value!.isEmpty ? 'Ingrese su nombre' : null,
-              ),              
-              TextFormField(
-                controller: _edadController,
-                decoration: const InputDecoration(labelText: 'Edad'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Ingrese su edad' : null,
+              Container(
+                margin: const EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribuye los elementos
+                  crossAxisAlignment: CrossAxisAlignment.center, // Alinea verticalmente
+                  children: [
+                    // Texto alineado a la izquierda
+                   const Flexible(
+                      child: Text(
+                        'Perfil',
+                        style: TextStyle(
+                          color: Color(0xFF036E9C),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        softWrap: true, // Permite que el texto se divida en varias líneas
+                        maxLines: 2, // Limita el texto a dos líneas
+                        overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos si el texto es muy largo
+                      ),
+                    ),
+                    // Imagen alineada a la derecha
+                    Image.asset(
+                      'lib/assets/icono.png', // Ruta de la imagen 
+                      width: 60, // Ajusta el tamaño de la imagen
+                      height: 60,
+                      fit: BoxFit.contain,
+                    ),
+                    // Menú desplegable en lugar del botón de cerrar sesión
+                    Material(
+                      color: const Color(0xFF036E9C), // Color de fondo
+                      shape: const CircleBorder(), // Botón circular
+                      child: PopupMenuButton<String>(
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                          size: 27.5, // Tamaño del ícono
+                        ),
+                        color: const Color(0xFF036E9C), // Fondo del menú desplegable
+                        onSelected: (String value) {
+                          switch (value) {
+                            case 'Inicio':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaInicio()), // Pantalla Home
+                              );
+                              break;
+                            case 'Citas':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FormularioCitaScreen()), // Pantalla Home
+                              );
+                              break;
+                            case 'Historial médico':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FormularioHistorialScreen()),
+                              );
+                              break;
+                            case 'Vacunas':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FormularioVacunaScreen()), 
+                              );
+                              break;
+                              case 'Contactos de emergencia':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaContactos()),
+                              );
+                              break;
+                              case 'Conócenos':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaConocenos()), 
+                              );
+                              break;
+                              case 'Clínicas veterinarias':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaClinicas()), 
+                              );
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => [
+                          PopupMenuItem<String>(
+                            value: 'Inicio',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/inicio.png', // Ruta  ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Inicio',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'Citas',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/citas.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Citas',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'Historial médico',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/historial.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Historial médico',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'Vacunas',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/vacunas.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Vacunas',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),  
+                          PopupMenuItem<String>(
+                            value: 'Contactos de emergencia',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/contactos.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Contactos de emergencia',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ), 
+                          PopupMenuItem<String>(
+                            value: 'Conócenos',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/conocenos.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Conócenos',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ), 
+                          PopupMenuItem<String>(
+                            value: 'Clínicas veterinarias',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/clinicas.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Clínicas veterinarias',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),                     
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
+              // Contenido principal
+              Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 50.0, bottom: 30.0),
+                      child: const Text(
+                        'Editar perfil',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ]
+                ),  
+              ),
+        Form(
+          key: _formKey,
+          child: Column(
+            children: [
+               Container(
+                width: 300, // Ajusta el ancho
+                height: 60, // Ajusta la altura
+                margin: const EdgeInsets.only(top: 40.0), // Margen externo
+                child: TextFormField(
+                  controller: _nombreController,
+                  decoration: InputDecoration(
+                    labelText: 'Nombre',
+                    labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
+                    floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
+                    floatingLabelStyle: const TextStyle(
+                      fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
+                      color: Color(0xFF00B2FF), // Color de la etiqueta cuando está enfocado
+                    ),
+                    filled: true, // Habilitar el fondo del TextField
+                    fillColor: Colors.white, // Color de fondo blanco
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100.0), // Border radius
+                      borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0), // Border radius
+                        borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0), // Border radius
+                        borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
+                    ),
+                    style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+                    ),
+                  ),              
+             Container(
+        width: 300, // Ajusta el ancho
+        height: 60, // Ajusta la altura
+        margin: const EdgeInsets.only(top: 40.0, bottom: 20.0), // Margen externo
+        child: TextFormField(
+          controller: _edadController,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: 'Edad',            
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
+            floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
+            floatingLabelStyle: const TextStyle(
+              fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
+              color: Color(0xFF00B2FF), // Color de la etiqueta cuando está enfocado
+            ),
+            filled: true, // Habilitar el fondo del TextField
+            fillColor: Colors.white, // Color de fondo blanco
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100.0), // Border radius
+              borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
+            ),
+            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            ),
+          ),
+              ValueListenableBuilder<String?>(
+              valueListenable: sexoNotifier,
+              builder: (context, sexo, _) {
+              return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Sexo', // Etiqueta que aparece fuera del campo
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Color.fromARGB(137, 255, 255, 255),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+              Container(
+                width: 305.0, // Ancho del contenedor
+                height: 47.0, // Altura del contenedor
+                margin: const EdgeInsets.only(bottom: 30.0),
+              decoration: BoxDecoration(
+                color: Colors.white, // Fondo blanco
+                borderRadius: BorderRadius.circular(15.0), // Borde redondeado
+                border: Border.all(
+                  color: const Color(0xFF00B2FF), // Color del borde
+                  width: 2.0, // Ancho del borde
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto, // Oculta la etiqueta al seleccionar
+                    border: InputBorder.none, // Sin borde adicional
+                    filled: true, // Activa el color de fondo
+                    fillColor: Colors.white, // Fondo blanco en el campo de texto
+                    ),                                   
+                  value: sexo,
+                  items: ['Macho', 'Hembra',]
+                      .map((sexo) => DropdownMenuItem(
+                            value: sexo,
+                            
+                            child: Text(
+                              sexo,
+                              style: const TextStyle(fontSize: 20.0),
+
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (val) => sexoNotifier.value = val,
+                  style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
+                  ),
+                )
+                )
+                ]
+                );
+              },
+            ),
+              ValueListenableBuilder<String?>(
+              valueListenable: especieNotifier,
+              builder: (context, especie, _) {
+              return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Especie', // Etiqueta que aparece fuera del campo
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Color.fromARGB(137, 255, 255, 255),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+              Container(
+                width: 305.0, // Ancho del contenedor
+                height: 47.0, // Altura del contenedor
+                margin: const EdgeInsets.only(top: 0.0),
+              decoration: BoxDecoration(
+                color: Colors.white, // Fondo blanco
+                borderRadius: BorderRadius.circular(15.0), // Borde redondeado
+                border: Border.all(
+                  color: const Color(0xFF00B2FF), // Color del borde
+                  width: 2.0, // Ancho del borde
+                ),
+              ),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto, // Oculta la etiqueta al seleccionar
+                    border: InputBorder.none, // Sin borde adicional
+                    filled: true, // Activa el color de fondo
+                    fillColor: Colors.white, // Fondo blanco en el campo de texto
+                    ),                                   
+                  value: especie,
+                  items: ['Gato', 'Perro', 'Ave', 'Pez', 'Hámster', 'Conejo', 'Tortuga']
+                      .map((especie) => DropdownMenuItem(
+                            value: especie,                            
+                            child: Text(
+                              especie,
+                              style: const TextStyle(fontSize: 20.0),
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (val) => especieNotifier.value = val,
+                  style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)),
+                )
+                )
+                ]
+                );
+              },
+            ),           
+               Container(
+        width: 300, // Ajusta el ancho
+        height: 60, // Ajusta la altura
+        margin: const EdgeInsets.only(top: 40.0, bottom: 20.0), // Margen externo
+        child: TextFormField(
+          controller: _razaController,
+          decoration: InputDecoration(
+            labelText: 'Raza',                       
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
+            floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
+            floatingLabelStyle: const TextStyle(
+              fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
+              color: Color(0xFF00B2FF), // Color de la etiqueta cuando está enfocado
+            ),
+            filled: true, // Habilitar el fondo del TextField
+            fillColor: Colors.white, // Color de fondo blanco
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100.0), // Border radius
+              borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
+            ),            
+            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            ),
+          ),
                ValueListenableBuilder<String?>(
-                valueListenable: sexoNotifier,
-                builder: (context, sexo, _) {
-                  return DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Sexo',
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    value: sexo,
-                    items: ['Macho', 'Hembra',]
-                        .map((item) => DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            ))
-                        .toList(),
-                    onChanged: (val) => sexoNotifier.value = val,
-                    validator: (value) => value == null ? 'Seleccione el sexo' : null,
-                  );
-                },
+              valueListenable: colorNotifier,
+              builder: (context, color, _) {
+                return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Color', // Etiqueta que aparece fuera del campo
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    color: Color.fromARGB(137, 255, 255, 255),
+                  ),
+                ),
+                const SizedBox(height: 8.0),
+              Container(
+                width: 305.0, // Ancho del contenedor
+                height: 47.0, // Altura del contenedor
+              decoration: BoxDecoration(
+                color: Colors.white, // Fondo blanco
+                borderRadius: BorderRadius.circular(15.0), // Borde redondeado
+                border: Border.all(
+                  color: const Color(0xFF00B2FF), // Color del borde
+                  width: 2.0, // Ancho del borde
+                ),
               ),
-              ValueListenableBuilder<String?>(
-                valueListenable: especieNotifier,
-                builder: (context, especie, _) {
-                  return DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Especie',
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    value: especie,
-                    items: ['Gato', 'Perro', 'Ave', 'Pez', 'Hámster', 'Conejo', 'Tortuga']
-                        .map((item) => DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            ))
-                        .toList(),
-                    onChanged: (val) => especieNotifier.value = val,
-                    validator: (value) => value == null ? 'Seleccione la especie' : null,
-                  );
-                },
-              ),             
-              TextFormField(
-                controller: _razaController,
-                decoration: const InputDecoration(labelText: 'Raza'),
-                validator: (value) => value!.isEmpty ? 'Ingrese la raza' : null,
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: DropdownButtonFormField<String>(
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto, // Oculta la etiqueta al seleccionar
+                    border: InputBorder.none, // Sin borde adicional
+                    filled: true, // Activa el color de fondo
+                    fillColor: Colors.white, // Fondo blanco en el campo de texto
+                    ), 
+                  value: color,
+                  items: ['Negro', 'Blanco', 'Café', 'Amarillo', 'Manchado', 'Naranja', 'Verde', 'Azul', 'Borrado']
+                      .map((especie) => DropdownMenuItem(
+                            value: especie,
+                            child: Text(
+                              especie,
+                              style: const TextStyle(fontSize: 20.0),
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (val) => colorNotifier.value = val,                  
+                  style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
+                )
+              )
+              )
+               ]            
+              );
+              },
+            ),
+              Container(
+        width: 300, // Ajusta el ancho
+        height: 60, // Ajusta la altura
+        margin: const EdgeInsets.only(top: 40.0), // Margen externo
+        child: TextFormField(
+          controller: _pesoController,
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            labelText: 'Peso',            
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
+            floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
+            floatingLabelStyle: const TextStyle(
+              fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
+              color: Color(0xFF00B2FF), // Color de la etiqueta cuando está enfocado
+            ),
+            filled: true, // Habilitar el fondo del TextField
+            fillColor: Colors.white, // Color de fondo blanco
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100.0), // Border radius
+              borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
               ),
-              ValueListenableBuilder<String?>(
-                valueListenable: colorNotifier,
-                builder: (context, color, _) {
-                  return DropdownButtonFormField<String>(
-                    decoration: const InputDecoration(
-                      labelText: 'Color',
-                      filled: true,
-                      fillColor: Colors.white,
-                    ),
-                    value: color,
-                    items: ['Negro', 'Blanco', 'Café', 'Amarillo', 'Manchado', 'Naranja', 'Verde', 'Azul', 'Borrado']
-                        .map((item) => DropdownMenuItem(
-                              value: item,
-                              child: Text(item),
-                            ))
-                        .toList(),
-                    onChanged: (val) => colorNotifier.value = val,
-                    validator: (value) => value == null ? 'Seleccione el color' : null,
-                  );
-                },
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
               ),
-              TextFormField(
-                controller: _pesoController,
-                decoration: const InputDecoration(labelText: 'Peso'),
-                keyboardType: TextInputType.number,
-                validator: (value) => value!.isEmpty ? 'Ingrese el peso' : null,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
               ),
-              TextFormField(
-                controller: _correoController,
-                decoration: const InputDecoration(labelText: 'Correo'),
-                validator: (value) => value!.isEmpty ? 'Ingrese su correo' : null,
+              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
+            ),
+            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            ),
+          ),
+              Container(
+        width: 300, // Ajusta el ancho
+        height: 60, // Ajusta la altura
+        margin: const EdgeInsets.only(top: 40.0), // Margen externo
+        child: TextFormField(
+          controller: _correoController,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Correo',            
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
+            floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
+            floatingLabelStyle: const TextStyle(
+              fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
+              color: Color(0xFF00B2FF), // Color de la etiqueta cuando está enfocado
+            ),
+            filled: true, // Habilitar el fondo del TextField
+            fillColor: Colors.white, // Color de fondo blanco
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100.0), // Border radius
+              borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
               ),
-              TextFormField(
-                controller: _usuarioController,
-                decoration: const InputDecoration(labelText: 'Usuario'),
-                validator: (value) => value!.isEmpty ? 'Ingrese su nombre de usuario' : null,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
+            ),
+            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
+            ),
+          ),
+               Container(
+        width: 300, // Ajusta el ancho
+        height: 60, // Ajusta la altura
+        margin: const EdgeInsets.only(top: 40.0), // Margen externo
+        child: TextFormField(
+          controller: _usuarioController,
+          keyboardType: TextInputType.emailAddress,
+          decoration: InputDecoration(
+            labelText: 'Usuario',            
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
+            floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
+            floatingLabelStyle: const TextStyle(
+              fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
+              color: Color(0xFF00B2FF), // Color de la etiqueta cuando está enfocado
+            ),
+            filled: true, // Habilitar el fondo del TextField
+            fillColor: Colors.white, // Color de fondo blanco
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(100.0), // Border radius
+              borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0), // Border radius
+                borderSide: const BorderSide(color: Color(0xFF00B2FF), width: 2.0), // Color del borde al estar enfocado
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
+            ),
+            style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado            
+            ),
+          ),
+              Container(
+                    margin: const EdgeInsets.only(top: 40.0, bottom: 40.0),
+                    child: ElevatedButton(
                 onPressed: _guardarCambios,
-                child: const Text('Guardar cambios'),
+                 style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white, 
+                      backgroundColor: const Color(0xFF00B2FF),
+                      minimumSize: const Size(150, 50)
+                      ),
+                child: const Text('Guardar cambios',  style: TextStyle(fontSize: 22.0),),
+              ),
+              ),
+               Container(
+                    margin: const EdgeInsets.only(top: 0.0, bottom: 40.0),
+                    child: ElevatedButton(
+                onPressed: _cancelarEdicion,
+                style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white, 
+                      backgroundColor: const Color(0xFF00B2FF),
+                      minimumSize: const Size(150, 50)
+                      ),
+                child: const Text('Cancelar',  style: TextStyle(fontSize: 22.0),),
+              ),
               ),
             ],
           ),
         ),
+       ]
       ),
+      ),
+    ),
+    ),
     );
   }
 }

@@ -194,7 +194,7 @@ class RegisterScreen extends StatelessWidget {
            Container(
           margin: const EdgeInsets.only(top: 50.0,),
           child:  Image.asset(
-              'lib/assets/icono.png', // Cambia a la ruta de tu imagen
+              'lib/assets/icono.png',
               height: 100,
               width: 100,
             ), 
@@ -211,7 +211,7 @@ class RegisterScreen extends StatelessWidget {
           controller: nombreController,
           decoration: InputDecoration(
             labelText: 'Nombre',
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -234,7 +234,6 @@ class RegisterScreen extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
-            validator: (value) => value!.isEmpty ? 'Ingrese su nombre' : null,
             ),
           ),
           Container(
@@ -246,7 +245,7 @@ class RegisterScreen extends StatelessWidget {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Edad',            
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -269,7 +268,6 @@ class RegisterScreen extends StatelessWidget {
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
-            validator: (value) => value!.isEmpty ? 'Ingrese su edad' : null,
             ),
           ),
           ValueListenableBuilder<String?>(
@@ -319,7 +317,6 @@ class RegisterScreen extends StatelessWidget {
                           ))
                       .toList(),
                   onChanged: (val) => sexoNotifier.value = val,
-                  validator: (value) => value == null ? 'Seleccione el sexo' : null,
                   style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
                   ),
                 )
@@ -373,9 +370,7 @@ class RegisterScreen extends StatelessWidget {
                           ))
                       .toList(),
                   onChanged: (val) => especieNotifier.value = val,
-                  validator: (value) => value == null ? 'Seleccione la especie' : null,
-                  style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
-                  ),
+                  style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)),
                 )
                 )
                 ]
@@ -390,7 +385,7 @@ class RegisterScreen extends StatelessWidget {
           controller: razaController,
           decoration: InputDecoration(
             labelText: 'Raza',                       
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -412,7 +407,6 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),            
-            validator: (value) => value!.isEmpty ? 'Ingrese la raza' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
@@ -460,7 +454,6 @@ class RegisterScreen extends StatelessWidget {
                           ))
                       .toList(),
                   onChanged: (val) => colorNotifier.value = val,                  
-                    validator: (value) => value == null ? 'Seleccione el color' : null,
                   style: const TextStyle(fontSize: 20.0, color: Color.fromARGB(255, 0, 0, 0)
                 )
               )
@@ -478,7 +471,7 @@ class RegisterScreen extends StatelessWidget {
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
             labelText: 'Peso',            
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -500,7 +493,6 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
-            validator: (value) => value!.isEmpty ? 'Ingrese el peso' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
@@ -513,7 +505,7 @@ class RegisterScreen extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'Correo',            
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -535,7 +527,6 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
-            validator: (value) => value!.isEmpty ? 'Ingrese su correo' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
@@ -548,7 +539,7 @@ class RegisterScreen extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'Usuario',            
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -570,7 +561,6 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
-            validator: (value) => value!.isEmpty ? 'Ingrese su nombre de usuario' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado            
             ),
           ),
@@ -584,7 +574,7 @@ class RegisterScreen extends StatelessWidget {
           keyboardType: TextInputType.emailAddress,
           decoration: InputDecoration(
             labelText: 'Contraseña',            
-            labelStyle: const TextStyle(fontSize: 18.0,), // Cambiar tamaño de letra
+            labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(
               fontSize: 0.0, // Tamaño de la etiqueta cuando está enfocado
@@ -606,21 +596,19 @@ class RegisterScreen extends StatelessWidget {
               ),
               contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0), // Espaciado interno
             ),
-            validator: (value) => value!.isEmpty ? 'Ingrese su nombre contraseña' : null,
             style: const TextStyle(fontSize: 20.0), // Cambiar tamaño de letra del texto ingresado
             ),
           ),
           Container(
-          margin: const EdgeInsets.only(top: 40.0, bottom: 40),
-          child: ElevatedButton(onPressed: () => _registrar(context),
-          style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.white, 
-              backgroundColor: const Color(0xFF00B2FF),
-              minimumSize: const Size(150, 50)
+            margin: const EdgeInsets.only(top: 40.0, bottom: 40),
+            child: ElevatedButton(onPressed: () => _registrar(context),
+            style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white, 
+                backgroundColor: const Color(0xFF00B2FF),
+                minimumSize: const Size(150, 50)
             ),
-          child: const Text('Registrar',  style: TextStyle(fontSize: 22.0),), 
-          ),
-          
+            child: const Text('Registrar',  style: TextStyle(fontSize: 22.0),), 
+            ),
           )
         ],
       ),

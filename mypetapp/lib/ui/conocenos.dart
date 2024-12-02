@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'agregar_cita.dart';
+import 'agregar_historial.dart';
+import 'agregar_vacuna.dart';
+import 'clinicas.dart';
+import 'contactos.dart';
+import 'perfil.dart';
+import 'inicio_screen.dart';
 
 class PaginaConocenos extends StatelessWidget {
   const PaginaConocenos({super.key});
@@ -35,35 +42,273 @@ class PaginaConocenos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Conócenos'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(8.0),
-        children: [
-          const Text(
-            "Pet Life es una empresa dedicada a mejorar los cuidados de las mascotas, ayudando a que tengan una mejor calidad de vida y una salud integral.\n"
-            "En Pet Life tenemos más de 10 años de experiencia en el cuidado de mascotas y manejo integral de su salud.\n"
-            "En nuestra empresa nos dedicamos a brindar servicios veterinarios, de guardería y estética para mascotas.\n"
-            "Contando con buenas recomendaciones y opiniones de nuestros clientes.\n"
-            "En esta aplicación hemos combinado nuestra experiencia con las necesidades para el cuidado de mascotas, brindando un espacio en donde podrás llevar el control de tu mascota, así como encontrar números de emergencia y clínicas veterinarias cerca de ti.",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-            textAlign: TextAlign.justify,
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            "Nuestros contactos",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
+      backgroundColor: Colors.black,
+    resizeToAvoidBottomInset: true,
+    body: SingleChildScrollView(
+      child: Center(
+        child:Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 50.0, left: 20.0, right: 20.0, bottom: 30.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // Distribuye los elementos
+                  crossAxisAlignment: CrossAxisAlignment.center, // Alinea verticalmente
+                  children: [
+                    // Texto alineado a la izquierda
+                   const Flexible(
+                      child: Text(
+                        'Conócenos',
+                        style: TextStyle(
+                          color: Color(0xFF036E9C),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        softWrap: true, // Permite que el texto se divida en varias líneas
+                        maxLines: 2, // Limita el texto a dos líneas
+                        overflow: TextOverflow.ellipsis, // Muestra puntos suspensivos si el texto es muy largo
+                      ),
+                    ),
+                    // Imagen alineada a la derecha
+                    Image.asset(
+                      'lib/assets/icono.png', // Ruta de la imagen 
+                      width: 60, // Ajusta el tamaño de la imagen
+                      height: 60,
+                      fit: BoxFit.contain,
+                    ),
+                    // Menú desplegable en lugar del botón de cerrar sesión
+                    Material(
+                      color: const Color(0xFF036E9C), // Color de fondo
+                      shape: const CircleBorder(), // Botón circular
+                      child: PopupMenuButton<String>(
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.white,
+                          size: 27.5, // Tamaño del ícono
+                        ),
+                        color: const Color(0xFF036E9C), // Fondo del menú desplegable
+                        onSelected: (String value) {
+                          switch (value) {
+                            case 'Inicio':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaInicio()), // Pantalla Home
+                              );
+                              break;
+                            case 'Citas':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FormularioCitaScreen()), // Pantalla Home
+                              );
+                              break;
+                            case 'Historial médico':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FormularioHistorialScreen()),
+                              );
+                              break;
+                            case 'Vacunas':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const FormularioVacunaScreen()), 
+                              );
+                              break;
+                              case 'Perfil':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PerfilUsuarioScreen()),
+                              );
+                              break;
+                              case 'Contactos de emergencia':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaContactos()), 
+                              );
+                              break;
+                              case 'Clínicas veterinarias':
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const PaginaClinicas()), 
+                              );
+                              break;
+                            default:
+                              break;
+                          }
+                        },
+                        itemBuilder: (BuildContext context) => [
+                          PopupMenuItem<String>(
+                            value: 'Inicio',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/inicio.png', // Ruta  ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Inicio',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'Citas',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/citas.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Citas',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'Historial médico',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/historial.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Historial médico',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem<String>(
+                            value: 'Vacunas',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/vacunas.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Vacunas',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),  
+                          PopupMenuItem<String>(
+                            value: 'Perfil',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/perfil.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Perfil',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ), 
+                          PopupMenuItem<String>(
+                            value: 'Contactos de emergencia',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/contactos.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Contactos de emergencia',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ), 
+                          PopupMenuItem<String>(
+                            value: 'Clínicas veterinarias',
+                            child: Row(
+                              children: [
+                                Image.asset(
+                                  'lib/assets/clinicas.png', // Ruta ícono
+                                  width: 25, // Tamaño del ícono
+                                  height: 25,
+                                ),
+                                const SizedBox(width: 10), // Espacio entre el ícono y el texto
+                                const Text(
+                                  'Clínicas veterinarias',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),                     
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+         Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 30.0, bottom: 10.0),
+                      child: const Text(
+                        'Nuestros contactos',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ]
+                ),  
+              ),
           _crearTarjetaContacto('Número telefónico', '4499874561', false),
           _crearTarjetaContacto('WhatsApp', '4494561237', true),
-          const SizedBox(height: 30),
-          const Text(
-            "Síguenos en nuestras redes sociales:",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 10),
+           Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 30.0, bottom: 10.0),
+                      child: const Text(
+                        'Redes sociales',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ]
+                ),  
+              ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -71,51 +316,67 @@ class PaginaConocenos extends StatelessWidget {
                 'Facebook',
                 FontAwesomeIcons.facebook,
                 Colors.blue,
-                'https://www.facebook.com/petlife',
+                'https://www.facebook.com',
               ),
               _crearBotonRedSocial(
                 'Instagram',
                 FontAwesomeIcons.instagram,
                 Colors.pink,
-                'https://www.instagram.com/petlife',
+                'https://www.instagram.com',
               ),
               _crearBotonRedSocial(
                 'X (Twitter)',
                 FontAwesomeIcons.xTwitter, // Ícono de X
-                Colors.black,
-                'https://twitter.com/petlife',
+                const Color.fromARGB(255, 255, 255, 255),
+                'https://twitter.com',
               ),
               _crearBotonRedSocial(
                 'TikTok',
                 FontAwesomeIcons.tiktok,
-                Colors.black,
-                'https://www.tiktok.com/@petlife',
+                const Color.fromARGB(255, 255, 255, 255),
+                'https://www.tiktok.com',
               ),
             ],
           ),
-        ],
+         ]
+        ),
+        ),
       ),
+    ),
     );
   }
 
   Widget _crearTarjetaContacto(String nombre, String telefono, bool esWhatsApp) {
     return Card(
       elevation: 4,
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      child: ListTile(
-        title: Text(
-          nombre,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      color: const Color(0xFFC5C6FF), // Color de fondo del Card
+      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 90.0),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0), // Bordes redondeados
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(15.0), // Aplica el mismo radio al InkWell
+        splashColor: const Color(0xFFC5C6FF), // Color al presionar
+        highlightColor: const Color(0xFFC5C6FF), // Color al mantener presionado
+        child: ListTile(
+          title:  Padding(
+            padding: const EdgeInsets.only(bottom: 10.0, top: 10.0), // Separar el teléfono del resto
+            child: Text(
+            nombre,
+            style: const TextStyle(fontSize: 18), 
+            textAlign: TextAlign.center,
+          ),
+          ),
+          subtitle:  Padding(
+            padding: const EdgeInsets.only(bottom: 10.0), // Separar el teléfono del resto
+            child: Text(
+            telefono,
+            style: const TextStyle(fontSize: 18, color: Colors.blue),
+            textAlign: TextAlign.center,
+          ), 
+          ),         
+        onTap: () => esWhatsApp ? _abrirWhatsApp(telefono) : _llamar(telefono), // Acción al presionar
         ),
-        subtitle: Text(
-          telefono,
-          style: const TextStyle(fontSize: 16, color: Colors.blue),
-        ),
-        trailing: Icon(
-          esWhatsApp ? FontAwesomeIcons.whatsapp : Icons.phone,
-          color: esWhatsApp ? Colors.green : Colors.black,
-        ),
-        onTap: () => esWhatsApp ? _abrirWhatsApp(telefono) : _llamar(telefono),
       ),
     );
   }

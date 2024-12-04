@@ -28,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
   bool _validarEntrada() {
     // Validación de Nombre
     if (nombreController.text.isEmpty || nombreController.text.length < 3 ||  nombreController.text.length > 50 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(nombreController.text)) {
-     _mensajeError = "El nombre de la mascota debe tener entre 3 y 50 letras, no debe estar vacío y no contener caracteres espciales ni acentos.";
+     _mensajeError = "El nombre de la mascota debe tener entre 3 y 50 letras, no debe estar vacío y no contener caracteres especiales ni acentos.";
      return false;
     }
 
@@ -52,7 +52,7 @@ class RegisterScreen extends StatelessWidget {
 
     // Validación de Raza
     if (razaController.text.isEmpty || razaController.text.length < 3 || edadController.text.length > 25 || !RegExp(r'^[a-zA-Z\s]+$').hasMatch(razaController.text)) {
-      _mensajeError= "La raza de la mascota debe tener entre 3 y 25 letras y no debe estar vacía.";
+      _mensajeError= "La raza de la mascota debe tener entre 3 y 25 letras, no debe estar vacía y no contener caracteres especiales ni acentos.";
       return false;
     }
 
@@ -76,14 +76,14 @@ class RegisterScreen extends StatelessWidget {
 
     // Validación de Usuario
     if (usuarioController.text.isEmpty || usuarioController.text.length < 3 || usuarioController.text.length > 15 || !RegExp(r'^[a-zA-Z0-9]+$').hasMatch(usuarioController.text)) {
-      _mensajeError= "El usuario debe tener entre 3 y 15 letras o números,  no debe estar vacío y no tener más de dos dígitos.";
+      _mensajeError= "El usuario debe tener entre 3 y 15 letras o números,  no debe estar vacío, no tener más de dos números y no contener caracteres especiales, acentos o espacios";
       return false;
     }
 
     // Validación de Contraseña
     if (passwordController.text.isEmpty || passwordController.text.length < 8 || 
         !RegExp(r'^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$').hasMatch(passwordController.text)) {
-      _mensajeError= "La contraseña debe contener al menos una letra y un número y tener una extensión de 8 caracteres.";
+      _mensajeError= "La contraseña debe contener al menos una letra y un número, tener una extensión de 8 caracteres y no debe contener caracteres especiales, acentos o espacios";
       return false;
     }
 
@@ -244,7 +244,7 @@ class RegisterScreen extends StatelessWidget {
           controller: edadController,
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
-            labelText: 'Edad de la mascota',            
+            labelText: 'Edad de la mascota en años',            
             labelStyle: const TextStyle(fontSize: 18.0, color: Colors.black,), // Cambiar tamaño de letra
             floatingLabelBehavior: FloatingLabelBehavior.never, // Controla la visibilidad al enfocar
             floatingLabelStyle: const TextStyle(

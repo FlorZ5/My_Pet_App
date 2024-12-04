@@ -42,28 +42,11 @@ class LoginScreen extends StatelessWidget {
     // Guardar el ID del usuario en la sesión
     await SessionManager.saveUserId(idUsuario);
 
-    showDialog(
-      // ignore: use_build_context_synchronously
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Inicio de sesión exitoso'),
-          content: const Text('¡Bienvenido! Has iniciado sesión correctamente.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const PaginaInicio()),
-                );
-              },
-              child: const Text('Continuar'),
-            ),
-          ],
-        );
-      },
-    );
+    Navigator.pushReplacement(
+    // ignore: use_build_context_synchronously
+    context,
+    MaterialPageRoute(builder: (context) => const PaginaInicio()),
+  );
   } else {
     showDialog(
       // ignore: use_build_context_synchronously
